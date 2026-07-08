@@ -8,3 +8,8 @@
     box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
 }
+
+body { 
+
+    background: rgb(204, 236, 242);
+}
