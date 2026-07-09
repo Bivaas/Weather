@@ -152,4 +152,11 @@ h1 {
     padding: 18px 16px;
     border-radius: 5px;
     background: #6c757d;
+    width: calc(100% / 5);
+}
+
+.weather-cards .card img { 
+
+    max-width: 70px;
+    margin: 5px 0 -12px 0;
 }
