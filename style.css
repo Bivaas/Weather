@@ -132,3 +132,24 @@ h1 {
     margin-top: -10px;
     text-transform: capitalize;
 }
+
+.days-forecast h2 { 
+
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
+
+.weather-cards { 
+
+    display: flex;
+    gap: 20px;
+}
+
+.weather-cards .card { 
+
+    list-style: none;
+    color: white;
+    padding: 18px 16px;
+    border-radius: 5px;
+    background: #6c757d;
+}
