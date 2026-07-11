@@ -7,24 +7,25 @@ const weatherCardsDiv = document.querySelector(".weather-cards");
 
 const createWeatherCard = (cityName, weatherItem, index) => { 
 
-    if (index === 0) {
+    if (index === 0) { // for main current weather card
 
+        // using actual value for weather and converting F to C and m/s to km/hr
         return `<div class="details"> 
 
-                    <h2>CITY (2026-7-8)</h2>
-                    <h4>TEMPERATURE:</h4>
-                    <h4>WIND:</h4>
-                    <h4>HUMIDITY:</h4>
+                    <h2>${cityName} [${weatherItem.dt_txt.split("-")[0]}]</h2>
+                    <h4>TEMPERATURE: ${(weatherItem.main.temp - 272.15).toFixed(2)} °C</h4>
+                    <h4>WIND: ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
+                    <h4>HUMIDITY: ${weatherItem.main.humidity} %</h4>
                 </div>
 
                 <div class="icon">
 
-                    <img src="https://openweathermap.org/img/wn/10d@4x.png" alt="weather-icon">
-                    <h4>Moderate Rain</h4>
+                    <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@4x.png" alt="weather-icon">
+                    <h4> ${weatherItem.weather[0].description} </h4>
 
                 </div>`;
 
-    } else { 
+    } else { // for 5 day forecast cards
 
         // using actual value for weather and converting F to C and m/s to km/hr
         return `<li class="card">
@@ -60,12 +61,14 @@ const getWeatherDetails = (cityName, lat, lon) => {
             }
         });
 
+
         // rm old placeholder cards
         cityInput.value = "";
         currentWeatherDiv.innerHTML = "";
         weatherCardsDiv.innerHTML = "";
 
 
+        // new weather cards and then adding them to DOM
         fiveDaysForecast.forEach((weatherItem, index) => {
 
             if (index === 0) { 
