@@ -13,8 +13,8 @@ const createWeatherCard = (cityName, weatherItem, index) => {
         // using actual value for weather and converting F to C and m/s to km/hr
         return `<div class="details"> 
 
-                    <h2>${cityName} [${weatherItem.dt_txt.split("-")[0]}]</h2>
-                    <h4>TEMPERATURE: ${(weatherItem.main.temp - 272.15).toFixed(2)} °C</h4>
+                    <h2>${cityName} [${weatherItem.dt_txt.split(" ")[0]}]</h2>
+                    <h4>TEMPERATURE: ${(weatherItem.main.temp - 273.15).toFixed(2)} °C</h4>
                     <h4>WIND: ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
                     <h4>HUMIDITY: ${weatherItem.main.humidity} %</h4>
                 </div>
@@ -31,7 +31,7 @@ const createWeatherCard = (cityName, weatherItem, index) => {
         // using actual value for weather and converting F to C and m/s to km/hr
         return `<li class="card">
         
-                    <h3>${weatherItem.dt_txt.split("-")[0]}</h3>
+                    <h3>${weatherItem.dt_txt.split(" ")[0]}</h3>
                     <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@2x.png" alt="weather-icon">
                     <h4>Temp: ${(weatherItem.main.temp - 272.15).toFixed(2)} °C</h4>
                     <h4>Wind: ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
@@ -43,9 +43,8 @@ const createWeatherCard = (cityName, weatherItem, index) => {
 }
 
 const getWeatherDetails = (cityName, lat, lon) => {
-    const WEATHER_API_URL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEY}`;
 
-
+    const WEATHER_API_URL = `/api/forecast?lat=${lat}&lon={lon}`;
 
     fetch(WEATHER_API_URL).then(res => res.json()).then(data => { 
 
@@ -97,6 +96,11 @@ const getCityCoordinates = async () => {
 
     const response = await fetch(`/api/geocode?city=${encodeURIComponent(cityName)}`);
     const data = await response.json();
+
+    if (!data.length) return alert(`No coordinates found for ${cityName} !!`);
+    const { name, lat, lon } = data[0];
+    getWeatherDetails (name, lat, lon);
+
 }
 
 // reverse API setup for usr location sharing
