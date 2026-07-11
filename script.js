@@ -15,7 +15,7 @@ const getWeatherDetails = (cityName, lat, lon) => {
 
         const uniqueForecastDays = [];
 
-        data.list.filter(forecast => {
+        const fiveDaysForecast = data.list.filter(forecast => {
 
             const forecastDate = new Date(forecast.dt_txt).getDate();
 
