@@ -20,13 +20,16 @@ app.get("/api/geocode", async (req, res) => {
     try { 
         const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=5&appid=${process.env.OPENWEATHER_API_KEY}`;
         const response = await fetch(url);
-        const data = await response.json();
+        const data = await fetch(url);
+
+        const { name, lat, lon } = data[0];
+
 
         res.json(data);
 
     } catch (error) {
 
-        res.status(500).json({ error: "geocoding fetch failed !!"});
+        res.status(500).json({ error: "geocoding fetch failed for ${cityName}!!"});
     }
 });
 
