@@ -4,7 +4,16 @@ const cityInput = document.querySelector(".city-input");
 
 const createWeatherCard = (weatherItem) => { 
 
-    return
+    // using actual value for weather and converting F to C and m/s to km/hr
+    return `<li class="card">
+    
+                <h3>${weatherItem.dt_txt.split("-")[0]}</h3>
+                <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@2x.png" alt="weather-icon">
+                <h4>Temp: ${(weatherItem.main.temp - 272.15).toFixed(2)} °C</h4>
+                <h4>Wind: ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
+                <h4>Humidity: ${weatherItem.main.humidity} %</h4>
+
+            </li>`;
 }
 
 const getWeatherDetails = (cityName, lat, lon) => {

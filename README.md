@@ -1,6 +1,7 @@
-# What I've used 
+# Everything I've used 
 
 ``` 
 Google fonts (open sans): https://fonts.google.com/selection
 OpenWeather (API keys): https://openweathermap.org/
+Degree: https://www.degreesymbol.net/
 ```
