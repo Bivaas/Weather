@@ -18,7 +18,7 @@ app.get("/api/geocode", async (req, res) => {
     }
 
     try { 
-        const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=5&appid=${process.env.OPENWEATHER_API_KEY}`;
+        const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=5&appid=${process.env.OPENWEATHER_API_KEYS}`;
         const response = await fetch(url);
         const data = await response.json();
 
@@ -43,7 +43,7 @@ app.get("/api/forecast", async (req, res) => {
     }
 
     try { 
-        const url = `https://api.opemweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEY}`;
+        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEYS}`;
         const response = await fetch(url);
         const data = await response.json();
 

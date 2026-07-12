@@ -33,7 +33,7 @@ const createWeatherCard = (cityName, weatherItem, index) => {
         
                     <h3>${weatherItem.dt_txt.split(" ")[0]}</h3>
                     <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@2x.png" alt="weather-icon">
-                    <h4>Temp: ${(weatherItem.main.temp - 272.15).toFixed(2)} °C</h4>
+                    <h4>Temp: ${(weatherItem.main.temp - 273.15).toFixed(2)} °C</h4>
                     <h4>Wind: ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
                     <h4>Humidity: ${weatherItem.main.humidity} %</h4>
     
@@ -44,7 +44,7 @@ const createWeatherCard = (cityName, weatherItem, index) => {
 
 const getWeatherDetails = (cityName, lat, lon) => {
 
-    const WEATHER_API_URL = `/api/forecast?lat=${lat}&lon={lon}`;
+    const WEATHER_API_URL = `/api/forecast?lat=${lat}&lon=${lon}`;
 
     fetch(WEATHER_API_URL).then(res => res.json()).then(data => { 
 
@@ -114,8 +114,8 @@ const getUserCoordinates = () => {
             fetch(REVERSE_GEOCODING_URL).then(res => res.json()).then(data => { 
 
                 if (!data.length) return alert(`No coordinates found for ${cityName}`);
-                const { name, lat, lon } = data[0];
-                getWeatherDetails(name, lat, lon);
+                const { name } = data[0];
+                getWeatherDetails(name, latitude, longitude);
 
             }).catch(() => {
 
@@ -135,3 +135,5 @@ const getUserCoordinates = () => {
 
 LocationButton.addEventListener("click", getUserCoordinates);
 searchButton.addEventListener("click", getCityCoordinates);
+
+cityInput.addEventListener( "keyup", e => e.key === "Enter" && getCityCoordinates());
