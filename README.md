@@ -25,4 +25,5 @@ I've used AI mainly for debugging purposes like API handling and when reverse lo
 Google fonts (open sans): https://fonts.google.com/selection
 OpenWeather (API keys): https://openweathermap.org/
 Degree: https://www.degreesymbol.net/
+Toastify-JS: https://github.com/apvarun/toastify-js
 ```

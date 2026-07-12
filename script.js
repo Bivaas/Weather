@@ -6,6 +6,17 @@ const currentWeatherDiv = document.querySelector(".current-weather");
 const weatherCardsDiv = document.querySelector(".weather-cards");
 
 
+const showToast = (message) => { 
+
+    Toastify({
+        text: message,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        style: { background: "linear-gradient(to right, #00b09b, #96c93d)" },
+    }).showToast();
+};
+
 const createWeatherCard = (cityName, weatherItem, index) => { 
 
     if (index === 0) { // for main current weather card
@@ -82,7 +93,7 @@ const getWeatherDetails = (cityName, lat, lon) => {
         })
 
     }).catch(() => {
-        alert("Weather forecast error when fetching !!");
+        showToast("Weather forecast error when fetching !!");
     });
 }
 
@@ -97,7 +108,7 @@ const getCityCoordinates = async () => {
     const response = await fetch(`/api/geocode?city=${encodeURIComponent(cityName)}`);
     const data = await response.json();
 
-    if (!data.length) return alert(`No coordinates found for ${cityName} !!`);
+    if (!data.length) return showToast(`No coordinates found for ${cityName} !!`);
     const { name, lat, lon } = data[0];
     getWeatherDetails (name, lat, lon);
 
@@ -113,7 +124,7 @@ const getUserCoordinates = () => {
 
             fetch(REVERSE_GEOCODING_URL).then(res => res.json()).then(data => { 
 
-                if (!data.length) return alert(`No coordinates found for ${cityName}`);
+                if (!data.length) return showToast(`No coordinates found for ${cityName}`);
                 const { name } = data[0];
                 getWeatherDetails(name, latitude, longitude);
 
