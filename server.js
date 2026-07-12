@@ -56,6 +56,31 @@ app.get("/api/forecast", async (req, res) => {
 });
 
 
+app.get("/api/reverse", async (req, res) => {
+
+    const { lat, lon } = req.query;
+
+    if (!lat || !lon ) {
+
+        return res.status(400).json ({ error: "lat / lon info is required !!!"});
+    }
+
+    try { 
+
+        const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${process.env.OPENWEATHER_API_KEYS}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        res.json(data);
+
+    } catch (error) {
+
+        res.status(500).json({ error: "Reverse geocoding fetch failed !!" });
+    }
+
+});
+
+
 app.listen(3000, () => {
 
     console.log ("Server up and running at 3000 !!")

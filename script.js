@@ -116,27 +116,27 @@ const getCityCoordinates = async () => {
 
 // reverse API setup for usr location sharing
 const getUserCoordinates = () => { 
-    navigator.geolocation.geetCurrentPosition(
+    navigator.geolocation.getCurrentPosition(
         position => {
 
             const {latitude, longitude } = position.coords;
-            const REVERSE_GEOCODING_URL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${API_KEY}`;
+            const REVERSE_GEOCODING_URL = `/api/reverse?lat=${latitude}$lon=${longitude}`;
 
             fetch(REVERSE_GEOCODING_URL).then(res => res.json()).then(data => { 
 
-                if (!data.length) return showToast(`No coordinates found for ${cityName}`);
+                if (!data.length) return showToast(`No coordinates found !!`);
                 const { name } = data[0];
                 getWeatherDetails(name, latitude, longitude);
 
             }).catch(() => {
 
-                alert("error during fetching the city location !!");
+                showToast("error during fetching the city location !!");
             });
 
         },
         error => { 
             if (error.code === error.PERMISSION_DENIED) { 
-                alert ("Location permission denied !! Reset location permission to re-enable access !!");
+                showToast("Location permission denied !! Reset location permission to re-enable access !!");
             }
         }
     );
