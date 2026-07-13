@@ -17,6 +17,15 @@ const showToast = (message) => {
     }).showToast();
 };
 
+
+// wind directions / degrees to compass direction
+const getWindDirection = (deg) => { 
+
+    const points = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+    return points[Mathj.round(deg / 45) % 8];
+};
+
+
 const createWeatherCard = (cityName, weatherItem, index) => { 
 
     if (index === 0) { // for main current weather card
@@ -162,9 +171,6 @@ const getMetarReport = async () => {
 
 
 LocationButton.addEventListener("click", getUserCoordinates);
-// searchButton.addEventListener("click", getCityCoordinates);
+searchButton.addEventListener("click", getCityCoordinates);
 
-// cityInput.addEventListener( "keyup", e => e.key === "Enter" && getCityCoordinates());
-
-searchButton.addEventListener("click", getMetarReport);
-cityInput.addEventListener("keyup", e => e.key === "Enter" && getMetarReport());
+cityInput.addEventListener( "keyup", e => e.key === "Enter" && getCityCoordinates());
