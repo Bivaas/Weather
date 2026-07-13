@@ -21,6 +21,10 @@ I've used AI mainly for debugging purposes like API handling and when reverse lo
 
 In my initial plan, I thought of using aviationweather.gov for easy METAR reports but they search up by only ICAO code but I have used cityname for openweather. So, I asked AI for help and if it would somehow convert cityname to ICAO airport, then it recommended me to use CheckWX although I had to setup API keys and have some rate limit but made the life easier and helped me implement. 
 
+# NOTE
+
+Visibility might not work properly as intended.
+
 # Everything I've used 
 
 ``` 

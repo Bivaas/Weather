@@ -22,7 +22,7 @@ const showToast = (message) => {
 const getWindDirection = (deg) => { 
 
     const points = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-    return points[Mathj.round(deg / 45) % 8];
+    return points[Math.round(deg / 45) % 8];
 };
 
 
@@ -34,9 +34,12 @@ const createWeatherCard = (cityName, weatherItem, index) => {
         return `<div class="details"> 
 
                     <h2>${cityName} [${weatherItem.dt_txt.split(" ")[0]}]</h2>
-                    <h4>TEMPERATURE: ${(weatherItem.main.temp - 273.15).toFixed(2)} °C</h4>
-                    <h4>WIND: ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
-                    <h4>HUMIDITY: ${weatherItem.main.humidity} %</h4> 
+                    <h4><b>TEMPERATURE: </b> ${(weatherItem.main.temp - 273.15).toFixed(2)} °C</h4>
+                    <h4><b>FEELS LIKE: </b> ${(weatherItem.main.feels_like - 273.15).toFixed(2)} °C</h4>
+                    <h4><b>WIND: </b> ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h at ${getWindDirection(weatherItem.wind.deg)}</h4>
+                    <h4><b>PRECIPITATION: </b> ${(weatherItem.pop * 100).toFixed(0)} % </h4>
+                    <h4><b>HUMIDITY: </b> ${weatherItem.main.humidity} %</h4> 
+                    <h4><b>VISIBILITY: </b> ${(weatherItem.visibility / 1000).toFixed(1)} km </h4>
                 </div>
 
                 <div class="icon">
@@ -53,9 +56,10 @@ const createWeatherCard = (cityName, weatherItem, index) => {
         
                     <h3>${weatherItem.dt_txt.split(" ")[0]}</h3>
                     <img src="https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}@2x.png" alt="weather-icon">
-                    <h4>Temp: ${(weatherItem.main.temp - 273.15).toFixed(2)} °C</h4>
-                    <h4>Wind: ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
-                    <h4>Humidity: ${weatherItem.main.humidity} %</h4>
+                    <h4><b>Min / Max: </b> ${(weatherItem.main.temp_min - 273.15).toFixed(1)} / ${(weatherItem.main.temp_max - 273.15).toFixed(1)} °C</h4>
+                    <h4><b>Wind: </b> ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
+                    <h4><b>Humidity</b>: ${weatherItem.main.humidity} %</h4>
+                    <h4><b>Precipitation: </b>${(weatherItem.pop * 100).toFixed(0)} %</h4>
     
                 </li>`;
     }
