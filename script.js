@@ -143,8 +143,28 @@ const getUserCoordinates = () => {
 }
 
 
+// for METAR reports
+const getMetarReport = async () => { 
+
+    const icao = cityInput.value.trim().toUpperCase();
+
+    if (!icao) return;
+
+    const response = await fetch(`/api/metar?ids=${encodeURIComponent(icao)}`);
+    const data = await response.json();
+
+    if (!data.data || !data.data.length) return showToast(`no METAR found for your ${icao} value !!`);
+
+    currentWeatherDiv.innerHTML = `<div class="details"><h2> ${icao}'s METAR</h2><p>${data.data[0]}</p></div>`;
+
+}
+
+
 
 LocationButton.addEventListener("click", getUserCoordinates);
-searchButton.addEventListener("click", getCityCoordinates);
+// searchButton.addEventListener("click", getCityCoordinates);
 
-cityInput.addEventListener( "keyup", e => e.key === "Enter" && getCityCoordinates());
+// cityInput.addEventListener( "keyup", e => e.key === "Enter" && getCityCoordinates());
+
+searchButton.addEventListener("click", getMetarReport);
+cityInput.addEventListener("keyup", e => e.key === "Enter" && getMetarReport());
