@@ -32,7 +32,7 @@ app.get("/api/geocode", async (req, res) => {
 });
 
 
-
+// api endpoint for normal weather search ( using city name )
 app.get("/api/forecast", async (req, res) => { 
 
     const { lat, lon } = req.query;
@@ -55,7 +55,7 @@ app.get("/api/forecast", async (req, res) => {
     }
 });
 
-
+// api ep setup for reverse geocoding ( use current location btn )
 app.get("/api/reverse", async (req, res) => {
 
     const { lat, lon } = req.query;
@@ -78,6 +78,34 @@ app.get("/api/reverse", async (req, res) => {
         res.status(500).json({ error: "Reverse geocoding fetch failed !!" });
     }
 
+});
+
+
+//api endpoint for metar report ( with checkWX )
+app.get("/api/metar", async (req, res) => {
+
+    const { ids } = req.query;
+
+    if (!ids) { 
+
+        return res.status(400).json ({ error: "Please ICAO code first !!"});
+    }
+
+    try { 
+        
+        const url = `https://api.checkwx.com/v2/metar/${encodeURIComponent(ids)}`;
+        const response = await fetch(url, { 
+
+            headers: { "X-API-Key": process.env.CHECKWX_API_KEY}
+        });
+        const data = await response.json();
+
+        res.json(data);
+
+    } catch {
+
+        res.status(500).json ({ error: "METAR fetch FAILED !!"});
+    }
 });
 
 

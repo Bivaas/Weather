@@ -13,7 +13,7 @@ const showToast = (message) => {
         duration: 3000,
         gravity: "top",
         position: "right",
-        style: { background: "linear-gradient(to right, #00b09b, #96c93d)" },
+        style: { background: "linear-gradient(to right, #49b000, #c9653d)" },
     }).showToast();
 };
 
@@ -27,7 +27,7 @@ const createWeatherCard = (cityName, weatherItem, index) => {
                     <h2>${cityName} [${weatherItem.dt_txt.split(" ")[0]}]</h2>
                     <h4>TEMPERATURE: ${(weatherItem.main.temp - 273.15).toFixed(2)} °C</h4>
                     <h4>WIND: ${(weatherItem.wind.speed * 3600 / 1000).toFixed(2)} km/h</h4>
-                    <h4>HUMIDITY: ${weatherItem.main.humidity} %</h4>
+                    <h4>HUMIDITY: ${weatherItem.main.humidity} %</h4> 
                 </div>
 
                 <div class="icon">
