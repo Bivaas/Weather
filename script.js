@@ -186,7 +186,7 @@ const getMetarByCoords = async (lat, lon) => {
 
    try {
 
-        const response = await fetch (`/api/metar-nearby?lat=${lat}&lon={lon}`);
+        const response = await fetch (`/api/metar-nearby?lat=${lat}&lon=${lon}`);
         const data = await response.json();
 
         if (!data.data || !data.data.length) { 

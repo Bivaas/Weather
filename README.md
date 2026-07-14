@@ -33,4 +33,5 @@ OpenWeather (API keys): https://openweathermap.org/
 CheckWX (API keys for METAR): https://www.checkwxapi.com/
 Degree: https://www.degreesymbol.net/
 Toastify-JS: https://github.com/apvarun/toastify-js
+Favicon: https://www.flaticon.com/free-icon/sun_10961028
 ```
