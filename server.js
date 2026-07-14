@@ -109,6 +109,36 @@ app.get("/api/metar", async (req, res) => {
 });
 
 
+// api endpoint to wire nearby METAR of nearby airport in the city with lat / lon of 70 mile radius ( getting metar with city input )
+app.get ("/api/metar-nearby", async (req, res) => { 
+
+    const { lat, lon } = req.query;
+
+    if (!lat || !lon) { 
+
+        return res.status(400).json({ error: "Location info is required !!!"});
+
+    }
+
+    try { 
+
+        const url = `https://api.checkwx.com/v2/metar/lat/${lat}/lon/${lon}/radius/70`;
+        const response = await fetch(url, { 
+
+            headers: { "X-API-KEY": process.env.CHECKWX_API_KEY }
+        });
+
+        const data = await response.json();
+
+        res.json(data);
+
+    } catch (error) { 
+
+        res.status(500).json({ error: "METAR of nearby airports failed !!"});
+    }
+});
+
+
 app.listen(3000, () => {
 
     console.log ("Server up and running at 3000 !!")
