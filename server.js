@@ -96,7 +96,7 @@ app.get("/api/metar", async (req, res) => {
         const url = `https://api.checkwx.com/v2/metar/${encodeURIComponent(ids)}`;
         const response = await fetch(url, { 
 
-            headers: { "X-API-Key": process.env.CHECKWX_API_KEY}
+            headers: { "X-API-KEY": process.env.CHECKWX_API_KEY}
         });
         const data = await response.json();
 
@@ -109,7 +109,7 @@ app.get("/api/metar", async (req, res) => {
 });
 
 
-// api endpoint to wire nearby METAR of nearby airport in the city with lat / lon of 70 mile radius ( getting metar with city input )
+// api endpoint to wire nearby METAR of nearby airport in the city with lat / lon of 120 mile radius ( getting metar with city input )
 app.get ("/api/metar-nearby", async (req, res) => { 
 
     const { lat, lon } = req.query;
@@ -122,7 +122,7 @@ app.get ("/api/metar-nearby", async (req, res) => {
 
     try { 
 
-        const url = `https://api.checkwx.com/v2/metar/lat/${lat}/lon/${lon}/radius/70`;
+        const url = `https://api.checkwx.com/v2/metar/lat/${lat}/lon/${lon}/radius/120`;
         const response = await fetch(url, { 
 
             headers: { "X-API-KEY": process.env.CHECKWX_API_KEY }

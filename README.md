@@ -23,7 +23,7 @@ In my initial plan, I thought of using aviationweather.gov for easy METAR report
 
 # NOTE
 
-Visibility might not work properly as intended.
+Visibility might not work properly as intended. There is two possibility: Either my API provider has issues getting the data OR the sky is completely visible. The maximum value is 10000 metre so it might be it. I was unable to verify exact issue but everything else works !
 
 # Everything I've used 
 

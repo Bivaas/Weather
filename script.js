@@ -5,6 +5,8 @@ const LocationButton = document.querySelector(".location-btn");
 const currentWeatherDiv = document.querySelector(".current-weather");
 const weatherCardsDiv = document.querySelector(".weather-cards");
 
+const metarReportDiv = document.querySelector(".metar-report");
+
 
 const showToast = (message) => { 
 
@@ -123,7 +125,9 @@ const getCityCoordinates = async () => {
 
     if (!data.length) return showToast(`No coordinates found for ${cityName} !!`);
     const { name, lat, lon } = data[0];
+    
     getWeatherDetails (name, lat, lon);
+    getMetarByCoords (lat, lon);
 
 }
 
@@ -133,13 +137,15 @@ const getUserCoordinates = () => {
         position => {
 
             const {latitude, longitude } = position.coords;
-            const REVERSE_GEOCODING_URL = `/api/reverse?lat=${latitude}$lon=${longitude}`;
+            const REVERSE_GEOCODING_URL = `/api/reverse?lat=${latitude}&lon=${longitude}`;
 
             fetch(REVERSE_GEOCODING_URL).then(res => res.json()).then(data => { 
 
                 if (!data.length) return showToast(`No coordinates found !!`);
                 const { name } = data[0];
-                getWeatherDetails(name, latitude, longitude);
+
+                getWeatherDetails (name, latitude, longitude);
+                getMetarByCoords (latitude, longitude);
 
             }).catch(() => {
 
@@ -173,7 +179,34 @@ const getMetarReport = async () => {
 }
 
 
+// If no , one or two airport exist in same city, a simple gate to show them and filter 
+const getMetarByCoords = async (lat, lon) => { 
 
+   metarReportDiv.innerHTML = "";
+
+   try {
+
+        const response = await fetch (`/api/metar-nearby?lat=${lat}&lon={lon}`);
+        const data = await response.json();
+
+        if (!data.data || !data.data.length) { 
+
+            metarReportDiv.innerHTML = `<h2>No airport found to be near your location !!</h2>`;
+            return;
+        }
+
+        const reports = data.data.slice(0, 2).map(raw => `<p>${raw}</p>`).join("");
+        metarReportDiv.innerHTML = `<h2>Airport weather (METAR): </h2> ${reports}`;
+
+   } catch { 
+
+        showToast("METAR fetch error !!");
+   }
+};
+
+
+
+// EVENT LISTENERS
 LocationButton.addEventListener("click", getUserCoordinates);
 searchButton.addEventListener("click", getCityCoordinates);
 
