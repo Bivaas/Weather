@@ -144,7 +144,7 @@ app.get ("/api/metar-nearby", async (req, res) => {
 // endpoint for AI response for weather summary to explain in paragraph
 app.post ("/api/summary", async (req, res) => {
 
-    const { weather } = req.body;
+    const { weather, metar } = req.body;
 
     if (!weather) {
 
@@ -166,7 +166,7 @@ app.post ("/api/summary", async (req, res) => {
                 model: "meta/llama-3.1-8b-instruct",
                 messages: [
 
-                    {role: "system", content: "You are a weather assistant. Your job is to write exactly weather in 4-5 sentences into simple paragraph which even a tiny baby should understand. It should be simple and clear information"},
+                    {role: "system", content: "You are a weather assistant. Your job is to write exactly two paragraph seperated by a blank line. First paragraph: describe the current city weather in plain langauge in about 4-5 sentences. Second paragraph: Decode the raw METAR report and then in simple english language, explain what it says and their meaning in short."},
                     { role: "user", content: `Describe this weather: ${JSON.stringify(weather)}`}
                 ],
 

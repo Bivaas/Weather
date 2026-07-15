@@ -11,6 +11,7 @@ const explainButton = document.querySelector(".explain-btn");
 const summaryDiv = document.querySelector(".weather-summary");
 
 let currentWeatherData = null;
+let currentMetarData = null;
 
 
 const showToast = (message) => { 
@@ -204,6 +205,7 @@ const getMetarReport = async () => {
 const getMetarByCoords = async (lat, lon) => { 
 
    metarReportDiv.innerHTML = "";
+   currentMetarData = null;
 
    try {
 
@@ -216,7 +218,10 @@ const getMetarByCoords = async (lat, lon) => {
             return;
         }
 
-        const reports = data.data.slice(0, 2).map(raw => `<p>${raw}</p>`).join("");
+        const reports = data.data.slice(0, 2);
+        const reports = currentMetarData.map(raw => `<p>${raw}</p>`).join("");
+
+
         metarReportDiv.innerHTML = `<h2>Airport weather (METAR): </h2> ${reports}`;
 
    } catch { 
@@ -239,14 +244,16 @@ const getWeatherSummary = async () => {
 
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify ({ weather: currentWeatherData })
+            body: JSON.stringify ({ weather: currentWeatherData, metar: currentMetarData })
+
         });
 
         const data = await response.json();
 
         if (!data.summary) return summaryDiv.innerHTML = "<p>Could not get summary !!</p>";
 
-        summaryDiv.innerHTML = `<p>${data.summary}</p>`;
+        const paragraphs = data.summary.split("/n").filter(p => p.trim()).map(p => `<p>${p}</p>`).join("");
+        summaryDiv.innerHTML = `<h2>Summary: </h2>${paragraphs}`;
 
     } catch { 
 

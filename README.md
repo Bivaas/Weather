@@ -2,7 +2,7 @@
 
 This is a simple weather app. You can view the weather either by typing city name or by using own current location (make sure to give location perms) which also gives you METAR report. If you're aviation enthusiast and want to take a flight, you will love it :) 
 
-I have also used an 8b parameter AI model (API) llama-3.1-8b-instruct capped at 450 token (due to simple use case) which formats the weather info into a simple short paragraph if you want to *read* the weather. 
+I have also used an 8b parameter AI model (API) llama-3.1-8b-instruct capped at 450 token (due to simple use case) which formats the weather info into a simple short paragraph if you want to *read* the weather. It also decodes the METAR report and explains it in simple english language so everybody can understand it easily.
 
 
 # Tech Stack
