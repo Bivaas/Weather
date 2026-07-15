@@ -7,6 +7,11 @@ const weatherCardsDiv = document.querySelector(".weather-cards");
 
 const metarReportDiv = document.querySelector(".metar-report");
 
+const explainButton = document.querySelector(".explain-btn");
+const summaryDiv = document.querySelector(".weather-summary");
+
+let currentWeatherData = null;
+
 
 const showToast = (message) => { 
 
@@ -97,13 +102,28 @@ const getWeatherDetails = (cityName, lat, lon) => {
         // new weather cards and then adding them to DOM
         fiveDaysForecast.forEach((weatherItem, index) => {
 
-            if (index === 0) { 
+            // organized and formatted the card data for AI to get proper notation for AI fetching
+            if (index === 0) {
 
                 currentWeatherDiv.insertAdjacentHTML("beforeend", createWeatherCard(cityName, weatherItem, index));
-            } else { 
+
+                currentWeatherData = { 
+
+                    city: cityName,
+                    date: weatherItem.dt_txt.split(" ")[0],
+                    temperature: `${(weatherItem.main.temp - 273.15).toFixed(1)} °C`,
+                    feelsLike: `${(weatherItem.main.feels_like - 273.15).toFixed(1)} °C `,
+                    condition: weatherItem.weather[0].description,
+                    wind: `${(weatherItem.wind.speed * 3600 / 1000).toFixed(1)} km/h ${getWindDirection(weatherItem.wind.deg)}`,
+                    precipitationChange: `${(weatherItem.pop * 100).toFixed(0)} %`,
+                    humidity: `${weatherItem.main.humidity} %`,
+                    visibility: `${(weatherItem.visibility / 1000).toFixed(1)} km`
+
+                };
+            }
+
 
             weatherCardsDiv.insertAdjacentHTML("beforeend", createWeatherCard(cityName, weatherItem, index));
-            }
             
         })
 
