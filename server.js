@@ -8,6 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.static("."));
 
+app.use(express.json());
+
 
 app.get("/api/geocode", async (req, res) => {
 
@@ -137,6 +139,54 @@ app.get ("/api/metar-nearby", async (req, res) => {
         res.status(500).json({ error: "METAR of nearby airports failed !!"});
     }
 });
+
+
+// endpoint for AI response for weather summary to explain in paragraph
+app.post ("/api/summary", async (req, res) => {
+
+    const { weather } = req.body;
+
+    if (!weather) {
+
+        return res.status(400).json ({ error: "Weather data not available !!"});
+    }
+
+    try { 
+        const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+
+            method: "POST", 
+            headers: {
+
+                "Authorization": `Bearer ${process.env.NVIDIA_API_KEY}`,
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify ({
+
+                model: "meta/llama-3.3-70b-instruct",
+                messages: [
+
+                    {role: "system", content: "You are a weather assistant. Your job is to format the provided weather into a simple form of paragraph"},
+                    { role: "user", content: `Describe this weather: ${JSON.stringify(weather)}`}
+                ],
+
+                temperature: 0.4,
+                max_tokens: 750
+            })
+        });
+
+        const data = await response.json();
+        const summary = data.choices[0].message.content;
+
+        res.json({ summary });
+
+    } catch (error) { 
+
+        res.status(500).json ({ error: "AI summary failed !! "});
+    }
+
+ });
+
 
 
 app.listen(3000, () => {
