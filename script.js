@@ -120,10 +120,11 @@ const getWeatherDetails = (cityName, lat, lon) => {
                     visibility: `${(weatherItem.visibility / 1000).toFixed(1)} km`
 
                 };
+
+            } else { 
+
+                weatherCardsDiv.insertAdjacentHTML("beforeend", createWeatherCard(cityName, weatherItem, index));
             }
-
-
-            weatherCardsDiv.insertAdjacentHTML("beforeend", createWeatherCard(cityName, weatherItem, index));
             
         })
 

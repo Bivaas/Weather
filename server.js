@@ -163,19 +163,20 @@ app.post ("/api/summary", async (req, res) => {
 
             body: JSON.stringify ({
 
-                model: "meta/llama-3.3-70b-instruct",
+                model: "meta/llama-3.1-8b-instruct",
                 messages: [
 
-                    {role: "system", content: "You are a weather assistant. Your job is to format the provided weather into a simple form of paragraph"},
+                    {role: "system", content: "You are a weather assistant. Your job is to write exactly weather in 4-5 sentences into simple paragraph which even a tiny baby should understand. It should be simple and clear information"},
                     { role: "user", content: `Describe this weather: ${JSON.stringify(weather)}`}
                 ],
 
                 temperature: 0.4,
-                max_tokens: 750
+                max_tokens: 450
             })
         });
 
         const data = await response.json();
+
         const summary = data.choices[0].message.content;
 
         res.json({ summary });
