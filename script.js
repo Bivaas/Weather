@@ -225,9 +225,41 @@ const getMetarByCoords = async (lat, lon) => {
 };
 
 
+// getting AI generated summary displayed
+const getWeatherSummary = async () => { 
+
+    if (!currentWeatherData) return showToast("Select your city first !! ");
+
+    summaryDiv.innerHTML = "<p>Getting you fresh update...</p>";
+
+    try { 
+
+        const response = await fetch ("/api/summary", {
+
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify ({ weather: currentWeatherData })
+        });
+
+        const data = await response.json();
+
+        if (!data.summary) return summaryDiv.innerHTML = "<p>Could not get summary !!</p>";
+
+        summaryDiv.innerHTML = `<p>${data.summary}</p>`;
+
+    } catch { 
+
+        summaryDiv.innerHTML = "<p>Summary failed, unfortunately :(</p>";
+    }
+
+};
+
+
 
 // EVENT LISTENERS
 LocationButton.addEventListener("click", getUserCoordinates);
 searchButton.addEventListener("click", getCityCoordinates);
 
 cityInput.addEventListener( "keyup", e => e.key === "Enter" && getCityCoordinates());
+
+explainButton.addEventListener("click", getWeatherSummary);
