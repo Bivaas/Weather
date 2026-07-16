@@ -116,7 +116,7 @@ const getWeatherDetails = (cityName, lat, lon) => {
                     feelsLike: `${(weatherItem.main.feels_like - 273.15).toFixed(1)} °C `,
                     condition: weatherItem.weather[0].description,
                     wind: `${(weatherItem.wind.speed * 3600 / 1000).toFixed(1)} km/h ${getWindDirection(weatherItem.wind.deg)}`,
-                    precipitationChange: `${(weatherItem.pop * 100).toFixed(0)} %`,
+                    precipitationChance: `${(weatherItem.pop * 100).toFixed(0)} %`,
                     humidity: `${weatherItem.main.humidity} %`,
                     visibility: `${(weatherItem.visibility / 1000).toFixed(1)} km`
 
@@ -184,22 +184,6 @@ const getUserCoordinates = () => {
 }
 
 
-// for METAR reports
-const getMetarReport = async () => { 
-
-    const icao = cityInput.value.trim().toUpperCase();
-
-    if (!icao) return;
-
-    const response = await fetch(`/api/metar?ids=${encodeURIComponent(icao)}`);
-    const data = await response.json();
-
-    if (!data.data || !data.data.length) return showToast(`no METAR found for your ${icao} value !!`);
-
-    currentWeatherDiv.innerHTML = `<div class="details"><h2> ${icao}'s METAR</h2><p>${data.data[0]}</p></div>`;
-
-}
-
 
 // If no , one or two airport exist in same city, a simple gate to show them and filter 
 const getMetarByCoords = async (lat, lon) => { 
@@ -218,7 +202,7 @@ const getMetarByCoords = async (lat, lon) => {
             return;
         }
 
-        const reports = data.data.slice(0, 2);
+        currentMetarData = data.data.slice(0, 2)
         const reports = currentMetarData.map(raw => `<p>${raw}</p>`).join("");
 
 
@@ -252,7 +236,7 @@ const getWeatherSummary = async () => {
 
         if (!data.summary) return summaryDiv.innerHTML = "<p>Could not get summary !!</p>";
 
-        const paragraphs = data.summary.split("/n").filter(p => p.trim()).map(p => `<p>${p}</p>`).join("");
+        const paragraphs = data.summary.split("\n").filter(p => p.trim()).map(p => `<p>${p}</p>`).join("");
         summaryDiv.innerHTML = `<h2>Summary: </h2>${paragraphs}`;
 
     } catch { 

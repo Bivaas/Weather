@@ -177,3 +177,9 @@ h1 {
     background: #319d6f;
     margin: 15px 0 30px 0;
 }
+
+
+.weather-summary p { 
+
+    margin-bottom: 12px;
+}

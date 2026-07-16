@@ -83,32 +83,6 @@ app.get("/api/reverse", async (req, res) => {
 });
 
 
-//api endpoint for metar report ( with checkWX )
-app.get("/api/metar", async (req, res) => {
-
-    const { ids } = req.query;
-
-    if (!ids) { 
-
-        return res.status(400).json ({ error: "Please ICAO code first !!"});
-    }
-
-    try { 
-        
-        const url = `https://api.checkwx.com/v2/metar/${encodeURIComponent(ids)}`;
-        const response = await fetch(url, { 
-
-            headers: { "X-API-KEY": process.env.CHECKWX_API_KEY}
-        });
-        const data = await response.json();
-
-        res.json(data);
-
-    } catch {
-
-        res.status(500).json ({ error: "METAR fetch FAILED !!"});
-    }
-});
 
 
 // api endpoint to wire nearby METAR of nearby airport in the city with lat / lon of 120 mile radius ( getting metar with city input )
@@ -141,6 +115,7 @@ app.get ("/api/metar-nearby", async (req, res) => {
 });
 
 
+
 // endpoint for AI response for weather summary to explain in paragraph
 app.post ("/api/summary", async (req, res) => {
 
@@ -150,6 +125,10 @@ app.post ("/api/summary", async (req, res) => {
 
         return res.status(400).json ({ error: "Weather data not available !!"});
     }
+
+    const userContent = metar && metar.length 
+        ? `Weather data: ${JSON.stringify(weather)}\n\nRaw METAR reports: ${JSON.stringify(metar)}`
+        : `Weather data: ${JSON.stringify(weather)}\n\nNO METAR reports available !!`;
 
     try { 
         const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
@@ -166,8 +145,8 @@ app.post ("/api/summary", async (req, res) => {
                 model: "meta/llama-3.1-8b-instruct",
                 messages: [
 
-                    {role: "system", content: "You are a weather assistant. Your job is to write exactly two paragraph seperated by a blank line. First paragraph: describe the current city weather in plain langauge in about 4-5 sentences. Second paragraph: Decode the raw METAR report and then in simple english language, explain what it says and their meaning in short."},
-                    { role: "user", content: `Describe this weather: ${JSON.stringify(weather)}`}
+                    {role: "system", content: "You are a weather assistant. Your job is to write exactly two paragraph seperated by a blank line. FIRST paragraph: describe the current city weather in plain language in about 4-5 sentences. Second paragraph: Decode the raw METAR report and then in simple English language, explain what it says and their meaning in short. If no METAR data is provided, say that you could not get nearby airports data. You should not include any markdown, no lists, no headings at all !"},
+                    { role: "user", content: userContent }
                 ],
 
                 temperature: 0.4,
