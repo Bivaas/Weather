@@ -104,10 +104,13 @@ h1 {
     padding: 20px 70px 20px 20px;
     background: #5372f0;
 
-    display: flex; 
+    display: flex;
+    justify-content: space-between;
     border-radius: 5px;
     padding: 20px 70px 20px 20px;
+
 }
+
 
 .current-weather h2 { 
 
