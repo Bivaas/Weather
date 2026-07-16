@@ -53,4 +53,4 @@ AI for summary: https://build.nvidia.com/models
 # Gallery: 
 
 _Demo of weather, METAR report and their summary in simple paragraph_
-![Screenshot](public/demo.png)
+![Screenshot](upload/demo.png)

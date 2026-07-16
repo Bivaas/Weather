@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 
 app.use(cors());
-app.use(express.static("."));
+app.use(express.static("public"));
 
 app.use(express.json());
 
@@ -168,6 +168,7 @@ app.post ("/api/summary", async (req, res) => {
  });
 
 
+ module.exports = app;
 
 app.listen(3000, () => {
 
