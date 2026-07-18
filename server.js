@@ -11,6 +11,8 @@ app.use(express.static("public"));
 app.use(express.json());
 
 
+app.get("/", (req, res) => res.redirect("/index.html"));
+
 app.get("/api/geocode", async (req, res) => {
 
     const city = req.query.city;
