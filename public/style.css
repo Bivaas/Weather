@@ -87,7 +87,7 @@ h1 {
     border-radius:4px;
 
     color: #fff;
-    background: #5372f0
+    background: rgb(100, 100, 181);
 }
 
 .weather-input .location-btn {
@@ -107,7 +107,7 @@ h1 {
 
     color: white;
     padding: 20px 70px 20px 20px;
-    background: #5372f0;
+    background: rgb(111, 157, 154);
 
     display: flex;
     justify-content: space-between;
@@ -164,7 +164,7 @@ h1 {
     color: white;
     padding: 18px 16px;
     border-radius: 5px;
-    background: #6c757d;
+    background: rgb(111, 157, 154);
     width: calc(100% / 5);
 }
 
@@ -182,7 +182,7 @@ h1 {
 
 .weather-input .explain-btn { 
 
-    background: #319d6f;
+    background: rgb(69, 125, 69);
     margin: 15px 0 30px 0;
 }
 
