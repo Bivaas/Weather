@@ -48,6 +48,7 @@ Degree: https://www.degreesymbol.net/
 Toastify-JS: https://github.com/apvarun/toastify-js
 Favicon: https://www.flaticon.com/free-icon/sun_10961028
 AI for summary: https://build.nvidia.com/models
+background: https://bg.ibelick.com/
 ```
 
 # Gallery: 
